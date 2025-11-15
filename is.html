@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Caesar Cipher - Modern UI</title>
+
+<style>
+/* ===== Reset & Font ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* ===== Body ===== */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #1f1f2e; /* Dark modern background */
+}
+
+/* ===== Card ===== */
+.card {
+    background: #2e2e3d;
+    padding: 35px 30px;
+    border-radius: 20px;
+    box-shadow: 0 12px 25px rgba(0,0,0,0.4);
+    width: 100%;
+    max-width: 480px;
+    color: #fff;
+    animation: slideIn 0.5s ease;
+}
+
+/* ===== Card animation ===== */
+@keyframes slideIn {
+    from {opacity:0; transform: translateY(30px);}
+    to {opacity:1; transform: translateY(0);}
+}
+
+/* ===== Titles ===== */
+h1 {
+    font-size: 28px;
+    text-align: center;
+    margin-bottom: 8px;
+    color: #00d4ff;
+}
+
+p {
+    font-size: 14px;
+    text-align: center;
+    color: #b0b0b0;
+    margin-bottom: 20px;
+}
+
+/* ===== Labels ===== */
+label {
+    font-size: 13px;
+    margin-bottom: 6px;
+    display: block;
+    color: #ccc;
+}
+
+/* ===== Inputs ===== */
+input {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 15px;
+    font-size: 15px;
+    outline: none;
+    background: #3b3b4d;
+    color: #fff;
+    transition: 0.3s;
+}
+
+input:focus {
+    box-shadow: 0 0 5px #00d4ff;
+}
+
+/* ===== Button Row ===== */
+.row {
+    display: flex;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+/* ===== Buttons ===== */
+button {
+    flex: 1;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button#encryptBtn {
+    background: #00d4ff;
+    color: #1f1f2e;
+}
+
+button#encryptBtn:hover {
+    background: #00b0cc;
+}
+
+button.secondary {
+    background: #5a5044;
+    color: #fff;
+}
+
+button.secondary:hover {
+    background: #5c5c72;
+}
+
+/* ===== Output Box ===== */
+.output {
+    margin-top: 18px;
+    min-height: 50px;
+    background: #3b3b4d;
+    border-radius: 10px;
+    padding: 12px;
+    font-size: 16px;
+    color: #00d4ff;
+    word-break: break-word;
+    text-align: center;
+}
+
+/* ===== Footer ===== */
+footer {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 12px;
+    color: #888;
+}
+</style>
+</head>
+
+<body>
+<div class="card">
+    <h1>Caesar Cipher</h1>
+    <p>Modern Encrypt & Decrypt Tool (Shift: k = 9)</p>
+
+    <label>Enter Text:</label>
+    <input type="text" id="text" placeholder="Type here...">
+
+    <label>Shift (k):</label>
+    <input type="number" id="k" value="9" min="0" max="25">
+
+    <div class="row">
+        <button id="encryptBtn">Encrypt</button>
+        <button class="secondary" id="decryptBtn">Decrypt</button>
+    </div>
+
+    <div class="output" id="result">Result will appear here...</div>
+
+    <footer>Designed by Mohamed</footer>
+</div>
+
+<script>
+function shiftChar(ch, k) {
+    const A = "A".charCodeAt(0);
+    const a = "a".charCodeAt(0);
+    const code = ch.charCodeAt(0);
+
+    if (code >= a && code <= a + 25) return String.fromCharCode(((code - a + k) % 26 + 26) % 26 + a);
+    if (code >= A && code <= A + 25) return String.fromCharCode(((code - A + k) % 26 + 26) % 26 + A);
+    return ch;
+}
+
+function caesar(text, k) {
+    let out = "";
+    for (let ch of text) out += shiftChar(ch, k);
+    return out;
+}
+
+document.getElementById("encryptBtn").onclick = () => {
+    const t = document.getElementById("text").value;
+    const k = parseInt(document.getElementById("k").value);
+    document.getElementById("result").textContent = caesar(t, k);
+};
+
+document.getElementById("decryptBtn").onclick = () => {
+    const t = document.getElementById("text").value;
+    const k = parseInt(document.getElementById("k").value);
+    document.getElementById("result").textContent = caesar(t, -k);
+};
+</script>
+</body>
+</html>
